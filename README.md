@@ -1,80 +1,27 @@
-# Flask app template - RQ
+heroku-flask-rq-worker
+======================
 
-> a simple Flask app template for Redis task queue.
+This is just to show how to retrieve the queue and wait until the job is finished from JavaScript.
 
-> working with python3. 
 
-> Thanks to: Benjamin Bertrand https://beenje.github.io/blog/posts/running-background-tasks-with-flask-and-rq/
+First install everything you need by doing this command. You might want to install redis as well if you haven't done it already.
+You can follow the steps from this. https://devcenter.heroku.com/articles/python-rq
 
-![snapshot](rq_snapshot.png "snapshot")
 
-Live Demo: https://flaskrq.herokuapp.com/
-
-It's based on a simple Flask template, check here: https://github.com/kevinqqnj/flask-template-simple
-
-## Features:
-- Simple but full structured Flask template to support RQ (Redis Queue)
-- integrated with RQ, redis
-- use Vue.js as frontend (you can replace as whatever frontend you like)
-- frontend shows dashboard of queued tasks
-
-## Prerequisite
-You should have Redis installed.
-> Ubuntu:
 ```
-sudo wget http://download.redis.io/redis-stable.tar.gz
-sudo tar xzf redis-stable.tar.gz
-cd redis-stable
-sudo make
-sudo make install
+pip install -r requirements.txt
 ```
 
-> Windows:
-using Cygwin: https://www.jianshu.com/p/28960f5b1464
+Run worker in one window. This will be our worker to fetch the job from RQ and process it.
 
-## Install
-
-``` bash
-# git clone
-# create virtual env
-python3 -m venv venv
-source venv/bin/activate
-# install python modules
-pip3 install -r requirements.txt
+```
+python worker.py
 ```
 
-Set redis server address in `/config.py`, default is:
-`REDISTOGO_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')`
-
-
-## Start up
+Then start up the app
 ```
-# start Redis server
-redis-server &
-# run rq worker
-python manage.py runworker
-# run http server in anther terminal
-python manage.py runserver
+python app.py
 ```
-Bingo! Check app in your web browser at: http://localhost:5000
 
-## deploy to Heroku Server
-ready for deploy to [Heroku](https://www.heroku.com)
-`Procfile`, `heroku.sh` and `runtime.txt` are included. It will use one dyno to run both worker and http server.
-```
-create app in heroku
-choose "REDISTOGO" or "Heroku REDIS" from resource
-git push to heroku
-configure env. variables
-```
-refer to: https://devcenter.heroku.com/articles/getting-started-with-python
+Then go to http://localhost:5000 and type something in the textbox, if you have firebug open you can see the requests coming back as 202 and then after the job is done it'll be 200
 
-## Expansion
-For production app, you can easily expand functions as you wish, such as:
-- Flask_Compress
-- Flask_Cache
-- Flask_Admin
-- Flask_Security
-- [flask-template-advanced](https://github.com/kevinqqnj/flask-template-advanced)
-
-> For a detailed explanation on how things work, check out the [guide (CHN)](https://www.jianshu.com/p/f37871e31231).
