@@ -4,7 +4,7 @@ sched = BlockingScheduler()
 
 @sched.scheduled_job('interval', minutes=140)
 def timed_job():
-    requests.get("https://vkbacktask.herokuapp.com/task1")
+    requests.get("https://vkback1.herokuapp.com/task1")
     
 
 
